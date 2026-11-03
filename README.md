@@ -5,7 +5,7 @@ playhead: a procedurally modelled 3D phone rises and turns, its screen runs a li
 explodes into six layers with counting spec callouts, recolours itself, and hands off to a camera
 section where scrolling is the zoom ring.
 
-**Live demo:** _coming soon_
+**Live demo:** https://scrollcraft-gadget.vercel.app
 
 ![Exploded view](public/og.png)
 

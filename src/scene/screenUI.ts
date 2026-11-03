@@ -76,7 +76,7 @@ export class ScreenPainter {
       ctx.textAlign = 'left';
     }
 
-    this.chrome(W, H);
+    this.chrome(W, H, s.lock);
     ctx.restore();
   }
 
@@ -225,8 +225,17 @@ export class ScreenPainter {
     ctx.restore();
   }
 
-  private chrome(W: number, H: number) {
+  private chrome(W: number, H: number, lock: number) {
     const { ctx, ui } = this;
+    // status bar scrim so feed content never collides with the clock
+    if (lock < 1) {
+      const scrim = ctx.createLinearGradient(0, 0, 0, 110);
+      scrim.addColorStop(0, `rgba(5,6,10,${0.95 * (1 - lock)})`);
+      scrim.addColorStop(0.7, `rgba(5,6,10,${0.8 * (1 - lock)})`);
+      scrim.addColorStop(1, 'rgba(5,6,10,0)');
+      ctx.fillStyle = scrim;
+      ctx.fillRect(0, 0, W, 110);
+    }
     // status bar
     ctx.fillStyle = '#fff';
     ctx.font = `600 24px ${FONT}`;
