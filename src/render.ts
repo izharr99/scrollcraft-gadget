@@ -8,6 +8,12 @@ const esc = (s: string | number): string =>
 
 const pad2 = (n: number) => String(n).padStart(2, '0');
 
+/** Format a hero HUD readout, e.g. 120mm, f/1.4, 0.4m. */
+export const fmtHud = (v: number, unit: string): string => {
+  const n = v < 10 ? v.toFixed(1) : Math.round(v).toString();
+  return unit.endsWith('/') ? `${unit}${n}` : `${n}${unit}`;
+};
+
 /** Numbered chapter rule shown at the top of every section. */
 const chapter = (n: number, label: string, meta = '') => `
   <div class="chapter" aria-hidden="true">
@@ -48,21 +54,28 @@ export function renderPage(c: Content): string {
 
   <div class="stage" data-stage aria-hidden="true">
     <canvas class="stage__canvas" data-gl></canvas>
+    <div class="stage__front" data-hero-front>
+      <span class="hero__title hero__title--outline" data-hero-title><span>${letters}</span></span>
+    </div>
   </div>
 
   <main id="main">
-    <section id="top" class="sec sec--hero" data-section="hero" aria-label="${esc(c.brand.product)}">
+    <section id="top" class="sec sec--hero" data-section="hero" aria-label="${esc(c.brand.name)} ${esc(c.brand.product)}">
       <div class="sticky">
-        ${chapter(0, c.hero.eyebrow, `${c.brand.name} ${c.brand.product}`)}
-        <ul class="hero__specs" aria-label="Key specs">
-          ${c.specs.items
-            .slice(0, 3)
-            .map((s) => `<li><span>${esc(s.label)}</span><b>${esc(s.value)}${s.unit ? ` ${esc(s.unit)}` : ''}</b></li>`)
+        <div class="hero__bar mono" aria-hidden="true">
+          <span>00 / ${esc(c.hero.eyebrow)}</span>
+          <span>${esc(c.brand.name)} ${esc(c.brand.product)}</span>
+        </div>
+        <h1 class="hero__title hero__title--solid" aria-label="${esc(c.brand.name)} ${esc(c.hero.title)}" data-hero-title><span aria-hidden="true">${letters}</span></h1>
+        <dl class="hero__hud" aria-hidden="true">
+          ${c.hero.hud
+            .map(
+              (h) => `<div><dt>${esc(h.label)}</dt><dd data-hud data-from="${h.from}" data-to="${h.to}" data-unit="${esc(h.unit)}">${esc(fmtHud(h.from, h.unit))}</dd></div>`,
+            )
             .join('')}
-        </ul>
+        </dl>
         <p class="hero__subtitle">${esc(c.hero.subtitle)}</p>
-        <h1 class="hero__title" aria-label="${esc(c.brand.name)} ${esc(c.hero.title)}"><span aria-hidden="true">${letters}</span></h1>
-        <span class="hero__hint" aria-hidden="true">${esc(c.hero.scrollHint)} <i></i></span>
+        <div class="hero__hint" aria-hidden="true"><span>${esc(c.hero.scrollHint)}</span><i><b data-hero-progress></b></i></div>
       </div>
     </section>
 
@@ -135,7 +148,7 @@ export function renderPage(c: Content): string {
               .map(
                 (f, i) => `
               <button type="button" class="swatch" role="radio" aria-checked="${i === 0}" data-finish="${i}"
-                style="--swatch:${esc(f.body)}" aria-label="${esc(f.name)}">
+                style="--swatch:${f.bodyEnd ? `linear-gradient(160deg, ${esc(f.body)}, ${esc(f.bodyEnd)})` : esc(f.body)}" aria-label="${esc(f.name)}">
                 <span class="swatch__chip" aria-hidden="true"></span>
                 <span class="swatch__idx" aria-hidden="true">${pad2(i + 1)}</span>
               </button>`,
@@ -214,7 +227,22 @@ export function renderPage(c: Content): string {
   </main>
 
   <footer class="footer">
-    <span>&copy; ${new Date().getFullYear()} ${esc(c.brand.name)}. ${esc(c.footer.note)}</span>
-    <ul>${c.footer.links.map((l) => `<li><a href="${esc(l.href)}" rel="noopener">${esc(l.label)}</a></li>`).join('')}</ul>
+    <div class="footer__cell">
+      <span class="footer__label">Designed &amp; built by</span>
+      <a href="${esc(c.credits.url)}" target="_blank" rel="noopener">${esc(c.credits.author)}</a>
+    </div>
+    <div class="footer__cell">
+      <span class="footer__label">Template</span>
+      <a href="${esc(c.credits.repo)}" target="_blank" rel="noopener">Get this template</a>
+    </div>
+    <div class="footer__cell">
+      <span class="footer__label">License</span>
+      <span>${esc(c.credits.license)}. Free to use.</span>
+    </div>
+    <div class="footer__cell">
+      <span class="footer__label">Credits</span>
+      <a href="${esc(c.credits.creditsUrl)}" target="_blank" rel="noopener">Photos, HDRI, fonts</a>
+    </div>
+    <p class="footer__note">&copy; ${new Date().getFullYear()} ${esc(c.brand.name)} is fictional. ${esc(c.footer.note)}</p>
   </footer>`;
 }

@@ -34,6 +34,8 @@ export class ScreenPainter {
   private k: number;
   private lastKey = '';
   private images = new Map<string, HTMLImageElement>();
+  /** Called after a photo finishes loading (the next draw will include it). */
+  onImageLoad?: () => void;
 
   constructor(
     private ui: ScreenUI,
@@ -43,7 +45,10 @@ export class ScreenPainter {
     for (const src of [ui.wallpaper, ui.music.art, ...ui.photos]) {
       const img = new Image();
       img.decoding = 'async';
-      img.onload = () => this.invalidate();
+      img.onload = () => {
+        this.invalidate();
+        this.onImageLoad?.();
+      };
       img.src = src;
       this.images.set(src, img);
     }

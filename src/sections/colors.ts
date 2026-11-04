@@ -58,6 +58,8 @@ export function initFinishPicker(
       ease: 'power4.inOut',
       onUpdate: () => {
         shown.body = lerpHex(from.body, next.body, tween.t);
+        shown.bodyEnd = lerpHex(from.bodyEnd ?? from.body, next.bodyEnd ?? next.body, tween.t);
+        shown.frame = lerpHex(from.frame ?? from.body, next.frame ?? next.body, tween.t);
         shown.accent = lerpHex(from.accent, next.accent, tween.t);
         shown.name = next.name;
         onColour(shown);

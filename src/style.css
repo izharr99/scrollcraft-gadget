@@ -139,9 +139,7 @@ a {
 .model__badge,
 .model__specs dt,
 .fine,
-.footer,
 .hero__specs,
-.hero__hint,
 .nav__links a {
   font-family: var(--mono);
   font-size: 11px;
@@ -336,100 +334,151 @@ a {
   height: 320vh;
 }
 
-/* ------------------------------------------------------------------ hero (behind the phone) */
+/* ------------------------------------------------------------------ hero
+   Solid type sits behind the WebGL phone; an outline copy of the same word lives in the
+   fixed stage above the canvas, so the phone appears to pass between the two layers. */
+.sec--hero {
+  height: 300vh;
+}
 .sec--hero .sticky {
   z-index: 0;
 }
-.hero__subtitle {
+.hero__bar {
   position: absolute;
-  top: calc(var(--nav-h) + 64px);
+  top: calc(var(--nav-h) + 12px);
   left: var(--gutter);
-  width: min(100% - 2 * var(--gutter), 22ch);
-  font-size: clamp(1.05rem, 1.4vw, 1.35rem);
-  line-height: 1.25;
-  letter-spacing: -0.01em;
+  right: var(--gutter);
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid var(--ink);
 }
-.hero__specs {
-  display: none;
+.hero__bar span:last-child {
+  color: var(--muted);
 }
 .hero__title {
+  --zoom: 1;
+  --dof: 0px;
   position: absolute;
-  left: calc(var(--gutter) - 0.04em);
-  bottom: 2.5vh;
+  left: 0;
+  right: 0;
+  top: 50%;
+  display: flex;
+  justify-content: center;
+  font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(6rem, 33vw, 36rem);
+  font-size: clamp(7rem, 34vw, 40rem);
   line-height: 0.76;
   letter-spacing: -0.075em;
-  display: flex;
+  transform: translateY(-50%) scale(var(--zoom));
+  filter: blur(var(--dof));
+  white-space: nowrap;
+  pointer-events: none;
 }
 .hero__title > span {
   display: flex;
 }
+.hero__title--outline {
+  color: transparent;
+  -webkit-text-stroke: 1.25px var(--ink);
+}
 .hero__mask {
   display: inline-block;
   overflow: hidden;
-  padding: 0 0.08em 0.03em 0;
+  padding: 0.04em 0.08em 0.04em 0;
   margin-right: -0.08em;
 }
 .hero__letter {
   display: inline-block;
   will-change: transform;
 }
+.stage__front {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transition: opacity 0.2s;
+}
+.stage__front.is-off {
+  opacity: 0;
+}
+.hero__hud {
+  position: absolute;
+  right: var(--gutter);
+  top: calc(var(--nav-h) + 52px);
+  margin: 0;
+  display: grid;
+  grid-auto-flow: column;
+  gap: var(--gap);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.hero__hud div {
+  min-width: 7ch;
+}
+.hero__hud dt {
+  color: var(--muted);
+}
+.hero__hud dd {
+  margin: 2px 0 0;
+  font-size: 15px;
+  text-transform: none;
+}
+.hero__subtitle {
+  position: absolute;
+  left: var(--gutter);
+  bottom: 5vh;
+  width: min(100% - 2 * var(--gutter), 24ch);
+  font-size: clamp(1rem, 1.3vw, 1.25rem);
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
 .hero__hint {
   position: absolute;
   right: var(--gutter);
-  top: calc(var(--nav-h) + 64px);
+  bottom: 5vh;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   color: var(--muted);
 }
 .hero__hint i {
   display: block;
-  width: 1px;
-  height: 28px;
-  background: var(--ink);
-  transform-origin: top;
-  animation: tick 1.4s cubic-bezier(0.7, 0, 0.2, 1) infinite;
+  width: 96px;
+  height: 1px;
+  background: var(--rule);
 }
-@keyframes tick {
-  0% {
-    transform: scaleY(0);
+.hero__hint b {
+  display: block;
+  height: 100%;
+  background: var(--ink);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+@media (max-width: 767px) {
+  .hero__hud {
+    left: var(--gutter);
+    right: var(--gutter);
+    justify-content: space-between;
   }
-  45%,
-  100% {
-    transform: scaleY(1);
+  .hero__subtitle {
+    bottom: 9vh;
+  }
+  .hero__hint {
+    bottom: 4vh;
+    left: var(--gutter);
+    right: auto;
   }
 }
 @media (min-width: 768px) {
-  .hero__subtitle {
+  .hero__hud {
     width: calc(var(--col) * 3 + var(--gap) * 2);
-  }
-  .hero__specs {
-    display: block;
-    position: absolute;
-    right: var(--gutter);
-    top: calc(var(--nav-h) + 64px);
-    width: calc(var(--col) * 3 + var(--gap) * 2);
-  }
-  .hero__specs li {
-    display: flex;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--rule);
-  }
-  .hero__specs li:first-child {
-    border-top: 1px solid var(--rule);
-  }
-  .hero__specs span {
-    color: var(--muted);
-  }
-  .hero__specs b {
-    font-weight: 500;
-  }
-  .hero__hint {
-    top: auto;
-    bottom: 4vh;
   }
 }
 
@@ -1085,14 +1134,53 @@ a {
 .footer {
   position: relative;
   z-index: 2;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 16px var(--gutter) 24px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px var(--gap);
+  padding: 16px var(--gutter) 28px;
   border-top: 1px solid var(--ink);
-  color: var(--muted);
   background: var(--paper);
+  text-transform: none;
+  font-size: 14px;
+  font-family: var(--display);
+  letter-spacing: 0;
+  color: var(--ink);
+}
+.footer__cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.footer__label,
+.footer__note {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.footer a {
+  text-decoration: none;
+  border-bottom: 1px solid var(--rule);
+  align-self: flex-start;
+  transition: border-color 0.15s, color 0.15s;
+}
+.footer a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.footer__note {
+  grid-column: 1 / -1;
+  padding-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+@media (min-width: 768px) {
+  .footer {
+    grid-template-columns: repeat(12, 1fr);
+  }
+  .footer__cell {
+    grid-column: span 3;
+  }
 }
 
 /* ------------------------------------------------------------------ fallbacks */
@@ -1125,9 +1213,11 @@ a {
   height: var(--vh);
   padding: 0;
 }
-.is-reduced .hero__hint i,
 .is-reduced .vf__rec i {
   animation: none;
+}
+.is-reduced .stage__front {
+  display: none;
 }
 .is-reduced .steps,
 .is-reduced .explode__intro,

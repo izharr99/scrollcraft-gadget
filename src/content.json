@@ -33,8 +33,28 @@
   "hero": {
     "eyebrow": "Introducing",
     "title": "FLUX",
-    "subtitle": "A phone reduced to what matters. Scroll to assemble it.",
-    "scrollHint": "Scroll"
+    "subtitle": "Shot like a product, built like a tool. Scroll to pull focus.",
+    "scrollHint": "Scroll",
+    "hud": [
+      {
+        "label": "Focal",
+        "from": 120,
+        "to": 24,
+        "unit": "mm"
+      },
+      {
+        "label": "Aperture",
+        "from": 8,
+        "to": 1.4,
+        "unit": "f/"
+      },
+      {
+        "label": "Distance",
+        "from": 0.12,
+        "to": 0.9,
+        "unit": "m"
+      }
+    ]
   },
   "screen": {
     "kicker": "Flux OS",
@@ -184,30 +204,35 @@
   "colors": {
     "kicker": "Finishes",
     "heading": "Pick your light.",
-    "body": "Four anodised titanium finishes. Scroll to cycle through them; the page follows your choice.",
+    "body": "Four finishes, from an iridescent violet gradient to quiet chalk. Scroll to cycle; the page follows.",
     "finishes": [
       {
-        "name": "Signal Orange",
-        "code": "SO-01",
-        "body": "#d9531e",
-        "accent": "#d9531e"
+        "name": "Violet Haze",
+        "code": "VH-01",
+        "body": "#6d4cf0",
+        "bodyEnd": "#cdbdff",
+        "frame": "#a99bd8",
+        "accent": "#6a4ae6"
       },
       {
         "name": "Graphite",
         "code": "GR-02",
         "body": "#2a2b2e",
+        "frame": "#4a4b50",
         "accent": "#2a2b2e"
       },
       {
         "name": "Sage",
         "code": "SG-03",
         "body": "#8d9f86",
+        "frame": "#9aa894",
         "accent": "#5f7a58"
       },
       {
         "name": "Chalk",
         "code": "CH-04",
         "body": "#dcd8cf",
+        "frame": "#c9c4b9",
         "accent": "#8a7f6a"
       }
     ]
@@ -343,5 +368,12 @@
   },
   "environment": {
     "hdri": "/hdri/studio_small_09_1k.hdr"
+  },
+  "credits": {
+    "author": "Muhammad Izhar",
+    "url": "https://izhar.dev",
+    "repo": "https://github.com/izharr99/scrollcraft-gadget",
+    "license": "MIT",
+    "creditsUrl": "https://github.com/izharr99/scrollcraft-gadget#credits"
   }
 }

@@ -9,8 +9,12 @@ export interface Finish {
   name: string;
   /** Short catalogue code shown in mono, e.g. "SO-01". */
   code?: string;
-  /** Device body / frame colour. */
+  /** Back-glass colour (top of the gradient when `bodyEnd` is set). */
   body: string;
+  /** Optional bottom colour for a gradient back. */
+  bodyEnd?: string;
+  /** Optional frame (metal band) tint; defaults to `body`. */
+  frame?: string;
   /** Page accent colour applied while this finish is selected. */
   accent: string;
 }
@@ -58,7 +62,14 @@ export interface Content {
   meta: { title: string; description: string; themeColor: string; lang: string };
   brand: { name: string; product: string; logoMark: string };
   nav: { links: Link[]; cta: Link };
-  hero: { eyebrow: string; title: string; subtitle: string; scrollHint: string };
+  hero: {
+    eyebrow: string;
+    title: string;
+    subtitle: string;
+    scrollHint: string;
+    /** Camera-style readouts that count from `from` to `to` as the hero pulls back. */
+    hud: { label: string; from: number; to: number; unit: string }[];
+  };
   screen: { kicker: string; steps: { title: string; body: string }[]; ui: ScreenUI };
   explode: { kicker: string; heading: string; body: string; layers: LayerSpec[] };
   specs: { kicker: string; items: Stat[] };
@@ -85,6 +96,8 @@ export interface Content {
     finePrint: string;
   };
   footer: { note: string; links: Link[] };
+  /** Footer credit block. */
+  credits: { author: string; url: string; repo: string; license: string; creditsUrl: string };
 }
 
 /** Typed view of src/content.json. Edit the JSON to rebrand; logic never hardcodes copy. */

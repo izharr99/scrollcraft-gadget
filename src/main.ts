@@ -5,7 +5,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { content } from './types';
-import { renderPage } from './render';
+import { fmtHud, renderPage } from './render';
 import { CameraPhoto } from './sections/camera';
 import { initFinishPicker } from './sections/colors';
 import { ExplodeCallouts } from './sections/explode';
@@ -28,7 +28,7 @@ document.querySelector('meta[name="theme-color"]')?.setAttribute('content', cont
 const app = document.getElementById('app');
 if (!app) throw new Error('#app missing');
 app.innerHTML = renderPage(content);
-root.style.setProperty('--accent', content.colors.finishes[0]?.accent ?? '#d9531e');
+root.style.setProperty('--accent', content.colors.finishes[0]?.accent ?? '#6a4ae6');
 
 const $ = <T extends Element = HTMLElement>(sel: string) => document.querySelector<T>(sel as string) as T;
 const $$ = <T extends Element = HTMLElement>(sel: string) => [...document.querySelectorAll<T>(sel)];
@@ -43,11 +43,9 @@ if (!reduced) {
 }
 
 const nav = $('[data-nav]');
-ScrollTrigger.create({
-  start: 80,
-  end: 'max',
-  onToggle: (self) => nav.classList.toggle('is-scrolled', self.isActive),
-});
+const syncNav = () => nav.classList.toggle('is-scrolled', window.scrollY > 80);
+window.addEventListener('scroll', syncNav, { passive: true });
+syncNav();
 
 // ---------------------------------------------------------------- camera section
 const camera = new CameraPhoto($('[data-camera-photo]'));
@@ -134,19 +132,46 @@ const picker = initFinishPicker(
 const EASE = 'power4.out';
 
 if (!reduced) {
-  // Hero: letters wipe up out of their masks on load, then clock out upward on scroll.
-  gsap.from('.hero__letter', { yPercent: 105, duration: 0.9, ease: EASE, stagger: 0.05, delay: 0.15 });
-  gsap.from('.sec--hero .chapter, .hero__specs li, .hero__subtitle, .hero__hint', {
+  // Hero: a camera move. Macro crop on the lens plateau, dolly back, pull focus on the type,
+  // then the word clocks out upward. Both type layers (solid behind, outline in front of the
+  // phone) share one timeline so they stay registered.
+  gsap.from('.hero__letter', { yPercent: 105, duration: 1, ease: EASE, stagger: 0.06, delay: 0.2 });
+  gsap.from('.hero__bar, .hero__hud div, .hero__subtitle, .hero__hint', {
     clipPath: 'inset(0 100% 0 0)',
     duration: 0.7,
     ease: EASE,
     stagger: 0.06,
-    delay: 0.35,
+    delay: 0.4,
   });
+  const heroTitles = $$('[data-hero-title]');
+  const heroFront = $('[data-hero-front]');
+  const heroBar = $('[data-hero-progress]');
+  const hud = $$('[data-hud]').map((el) => ({
+    el,
+    from: Number(el.dataset.from),
+    to: Number(el.dataset.to),
+    unit: el.dataset.unit ?? '',
+  }));
+  gsap.set(heroTitles, { '--zoom': 1.22, '--dof': '14px' });
   gsap
-    .timeline({ scrollTrigger: { trigger: '[data-section="hero"]', start: 'top top', end: 'bottom bottom', scrub: true } })
-    .to('.hero__letter', { yPercent: -105, ease: 'power2.in', stagger: 0.08 }, 0.35)
-    .to('.hero__specs, .hero__subtitle, .hero__hint', { clipPath: 'inset(0 0 0 100%)', ease: 'none', duration: 0.3 }, 0.1);
+    .timeline({
+      scrollTrigger: {
+        trigger: '[data-section="hero"]',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: true,
+        onUpdate: (self) => {
+          const p = self.progress;
+          heroBar.style.transform = `scaleX(${p.toFixed(3)})`;
+          const k = 1 - Math.pow(1 - Math.min(1, p / 0.5), 3);
+          for (const h of hud) h.el.textContent = fmtHud(h.from + (h.to - h.from) * k, h.unit);
+          heroFront.classList.toggle('is-off', p >= 0.98);
+        },
+      },
+    })
+    .to(heroTitles, { '--zoom': 1, '--dof': '0px', ease: 'power2.out', duration: 0.5 }, 0)
+    .to('.hero__letter', { yPercent: -105, ease: 'power3.in', stagger: 0.03, duration: 0.3 }, 0.62)
+    .to('.hero__subtitle, .hero__hud', { clipPath: 'inset(0 0 0 100%)', ease: 'none', duration: 0.2 }, 0.7);
 
   // Screen: copy steps follow the in-device feed.
   const steps = $$('[data-step]');
@@ -259,6 +284,13 @@ if (!reduced) {
     ease: 'none',
     stagger: 0.03,
     scrollTrigger: { trigger: '#preorder', start: 'top 80%', end: 'top 30%', scrub: true },
+  });
+}
+
+if (reduced) {
+  // Static page: show the hero readouts at their final values.
+  $$<HTMLElement>('[data-hud]').forEach((el) => {
+    el.textContent = fmtHud(Number(el.dataset.to), el.dataset.unit ?? '');
   });
 }
 

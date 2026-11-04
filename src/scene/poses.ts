@@ -16,6 +16,8 @@ export interface Pose {
   lock: number;
   /** Screen state: home feed scroll 0..1. */
   feed: number;
+  /** Rim-light sweep across the frame, 0 (left) .. 1 (right). */
+  sweep: number;
 }
 
 export type SectionId = 'hero' | 'screen' | 'explode' | 'specs' | 'colors' | 'camera';
@@ -33,8 +35,10 @@ export interface Keyframe {
 const PI = Math.PI;
 
 export const KEYFRAMES: Keyframe[] = [
-  { at: ['hero', 0], pose: { x: 0, y: -0.2, s: 0.9, rx: 0.35, ry: PI * 1.05, rz: -0.12, explode: 0, vis: 1, lock: 1, feed: 0 }, mobile: { s: 0.62, y: 0.05 } },
-  { at: ['hero', 1], pose: { y: 0.1, s: 1, rx: 0.06, ry: -0.32, rz: 0.04 }, mobile: { s: 0.72, y: 0.2 } },
+  // Hero: macro crop on the camera plateau, dolly back to the full device, then turn to face us.
+  { at: ['hero', 0], pose: { x: -1.25, y: -3.7, s: 3.3, rx: 0.08, ry: PI + 0.12, rz: -0.04, explode: 0, vis: 1, lock: 1, feed: 0, sweep: 0 }, mobile: { x: -0.75, y: -2.55, s: 2.3 } },
+  { at: ['hero', 0.5], pose: { x: 0.15, y: 0.05, s: 1.08, rx: 0.12, ry: PI - 0.38, rz: 0.05, sweep: 0.7 }, mobile: { x: 0, y: 0.15, s: 0.74 } },
+  { at: ['hero', 1], pose: { x: 0, y: 0.05, s: 1.02, rx: 0.04, ry: -0.3, rz: 0.03, sweep: 1 }, mobile: { y: 0.15, s: 0.74 } },
   { at: ['screen', 0], pose: { x: 1.25, ry: -0.28, rx: 0, rz: 0, s: 1.02, lock: 0, feed: 0 }, mobile: { x: 0, y: 0.62, s: 0.68 } },
   { at: ['screen', 1], pose: { ry: -0.12, feed: 1 }, mobile: { y: 0.62 }, ease: 'linear' },
   { at: ['explode', 0.08], pose: { x: 0, y: -0.1, s: 0.72, rx: 0.42, ry: -1.0, rz: 0.12, explode: 0 }, mobile: { x: 0, y: 0.15, s: 0.5 } },
@@ -47,7 +51,7 @@ export const KEYFRAMES: Keyframe[] = [
   { at: ['camera', -0.25], pose: { vis: 0, ry: PI + 1.2 } },
 ];
 
-export const POSE_KEYS: (keyof Pose)[] = ['x', 'y', 's', 'rx', 'ry', 'rz', 'explode', 'vis', 'lock', 'feed'];
+export const POSE_KEYS: (keyof Pose)[] = ['x', 'y', 's', 'rx', 'ry', 'rz', 'explode', 'vis', 'lock', 'feed', 'sweep'];
 
 interface Resolved {
   px: number;

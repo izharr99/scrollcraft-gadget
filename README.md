@@ -20,9 +20,15 @@ Motion is precise and mechanical: short power4/expo eases, clipped wipes, tickin
 
 ## Features
 
-- **Studio-lit 3D phone** (Three.js): metal frame, satin etched-glass back, side buttons, sapphire
-  lenses, all with physically based materials, reflecting a real studio HDRI (Poly Haven) under ACES
-  tone mapping. A soft PCF shadow falls on an invisible paper backdrop like a product shot.
+- **Cinematic hero**: opens on a macro crop of the camera plateau and dollies back to the full
+  device while a rim light sweeps across the frame. The giant wordmark starts out of focus and
+  pulls into focus; a solid copy sits behind the phone and an outline copy in front of it, so the
+  phone passes between the letters. Camera readouts (focal length, aperture, distance) count as
+  you scroll.
+- **Premium procedural phone** (Three.js, no model files): flat chamfered titanium band, uniform
+  thin bezels, satin back glass with a gradient + iridescent finish, raised camera plateau with
+  stepped lens assemblies and coated glass domes. Physically based materials reflect a real studio
+  HDRI (Poly Haven) under ACES tone mapping, with a clean soft contact shadow on the paper.
 - **Real, crisp on-device UI**: the screen is a 1170 x 2532 canvas (a real 3x panel; DPR-capped on
   mobile) uploaded with mipmaps and max anisotropy. Photo lock screen, status bar with vector
   icons, weather, health dial, calendar, now-playing, a photo gallery widget, app grid and dock.
@@ -53,16 +59,17 @@ Everything you can read on the page lives in [`src/content.json`](src/content.js
 | `meta` | `<title>`, description, theme colour, language (injected into `index.html` at build) |
 | `brand` | Brand name, product name, logo letter |
 | `nav` | Nav links and CTA |
-| `hero` | Eyebrow, the giant title word (each letter animates), subtitle |
+| `hero` | Eyebrow, the giant title word (each letter animates), subtitle, `hud` camera readouts |
 | `screen.steps` | The copy steps shown while the in-device feed scrolls |
 | `screen.ui` | What the phone's screen shows: time, date, greeting, weather, music (with cover `art`), health, events, gallery `photos`, lock screen `wallpaper` |
 | `explode.layers` | Six spec callouts. `id` must be one of `glass`, `display`, `chip`, `battery`, `camera`, `back`. List them front to back: the first half goes in the left column. `value` + `decimals` drive the counter. |
 | `specs.items` | The giant filmstrip numbers |
-| `colors.finishes` | Device finishes: `body` is the metal colour, `accent` re-themes the whole page |
+| `colors.finishes` | Device finishes: `body` (and optional `bodyEnd` for a gradient) colour the back glass, `frame` tints the metal band, `accent` re-themes the whole page. The first finish is the default. |
 | `camera` | Copy, max zoom readout, aperture label, stats, and `images` (sharp photo, blurred copy, bokeh photo) |
 | `environment.hdri` | Equirectangular `.hdr` used for reflections on the phone |
 | `compare.models` | Model cards; `highlight: true` adds the glow and `badge` |
 | `preorder`, `footer` | Finale copy, CTAs, fine print |
+| `credits` | Footer credit: `author`, `url`, `repo` ("Get this template"), `license`, `creditsUrl` |
 
 Want to go further?
 
@@ -94,7 +101,7 @@ src/
   main.ts             Lenis, ScrollTrigger choreography, wiring
   scene/
     Stage.ts          renderer, lights, environment, frame loop
-    Phone.ts          procedural six-layer phone
+    Phone.ts          procedural premium phone (six explodable layers)
     poses.ts          scroll -> pose keyframe track
     screenUI.ts       live on-device UI drawn to a canvas texture
   sections/
@@ -119,7 +126,9 @@ src/
   - `thumb-2.webp`: [Lake surrounded with mountain](https://www.pexels.com/photo/lake-surrounded-with-mountain-629161/)
   - `thumb-3.webp`: [City lighting at night](https://www.pexels.com/photo/city-lighting-at-night-18834566/)
   - `thumb-4.webp`: [City skyline at night](https://www.pexels.com/photo/city-lights-night-stars-57641/)
-- The 3D phone and all UI are modelled and drawn in code for this template. Veyra and Flux are fictional.
+- 3D model: none downloaded. The phone is modelled procedurally in `src/scene/Phone.ts` for this
+  template, and all UI is drawn in code. Veyra and Flux are fictional.
+- Designed and built by [Muhammad Izhar](https://izhar.dev).
 
 ## License
 
