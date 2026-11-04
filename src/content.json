@@ -362,7 +362,7 @@
     "links": [
       {
         "label": "Source on GitHub",
-        "href": "https://github.com/izharr99/scrollcraft-gadget"
+        "href": "https://github.com/izharr99/veyra"
       }
     ]
   },
@@ -372,8 +372,8 @@
   "credits": {
     "author": "Muhammad Izhar",
     "url": "https://izhar.dev",
-    "repo": "https://github.com/izharr99/scrollcraft-gadget",
+    "repo": "https://github.com/izharr99/veyra",
     "license": "MIT",
-    "creditsUrl": "https://github.com/izharr99/scrollcraft-gadget#credits"
+    "creditsUrl": "https://github.com/izharr99/veyra#credits"
   }
 }

@@ -1,11 +1,11 @@
-# ScrollCraft: Gadget Launch
+# Veyra: Phone Launch Template
 
 A free, open-source **scroll-driven product launch template** for phones and gadgets. Scroll is the
 playhead: a studio-lit 3D phone rises and turns on paper, its screen runs a live mini OS, it
 explodes into six layers with counting spec callouts, recolours itself, and hands off to a camera
 section where scrolling is the zoom ring.
 
-**Live demo:** https://scrollcraft-gadget.vercel.app
+**Live demo:** https://veyra.izhar.dev
 
 ![Exploded view](public/og.png)
 
