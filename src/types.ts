@@ -7,6 +7,8 @@ export interface Link {
 
 export interface Finish {
   name: string;
+  /** Short catalogue code shown in mono, e.g. "SO-01". */
+  code?: string;
   /** Device body / frame colour. */
   body: string;
   /** Page accent colour applied while this finish is selected. */
@@ -43,7 +45,11 @@ export interface ScreenUI {
   date: string;
   greeting: string;
   weather: { temp: string; label: string; city: string };
-  music: { track: string; artist: string };
+  music: { track: string; artist: string; art: string };
+  /** Photo thumbnails shown in the on-screen gallery widget. */
+  photos: string[];
+  /** Lock screen wallpaper photo (ideally 1170x2532). */
+  wallpaper: string;
   health: { score: number; label: string; steps: string };
   events: { time: string; title: string }[];
 }
@@ -64,7 +70,11 @@ export interface Content {
     zoomMax: number;
     aperture: string;
     stats: Stat[];
+    /** Sharp photo, a pre-blurred copy of it, and a real defocused (bokeh) photo. */
+    images: { sharp: string; soft: string; bokeh: string; alt: string };
   };
+  /** Equirectangular .hdr used for reflections on the 3D phone. */
+  environment: { hdri: string };
   compare: { kicker: string; heading: string; models: Model[] };
   preorder: {
     kicker: string;

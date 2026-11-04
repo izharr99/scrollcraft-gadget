@@ -1,7 +1,7 @@
 # ScrollCraft: Gadget Launch
 
 A free, open-source **scroll-driven product launch template** for phones and gadgets. Scroll is the
-playhead: a procedurally modelled 3D phone rises and turns, its screen runs a live mini OS, it
+playhead: a studio-lit 3D phone rises and turns on paper, its screen runs a live mini OS, it
 explodes into six layers with counting spec callouts, recolours itself, and hands off to a camera
 section where scrolling is the zoom ring.
 
@@ -11,31 +11,38 @@ section where scrolling is the zoom ring.
 
 > Veyra and Flux are fictional. No real brand, product or logo is used or imitated.
 
+## Art direction
+
+Swiss industrial product design, in daylight: warm paper (`#efede8`), near-black ink and a single
+accent that is always the selected finish colour. A visible 12-column hairline grid (4 on mobile),
+numbered chapters, JetBrains Mono spec labels with tabular numbers, tight Inter Tight display type.
+Motion is precise and mechanical: short power4/expo eases, clipped wipes, ticking counters.
+
 ## Features
 
-- **3D hero** (Three.js): a phone built entirely from extruded shapes (no model files) with
-  physical metal and glass materials, lit by a procedural room environment. It rises and rotates
-  from back to front as you scroll.
-- **Live screen**: the display is a `CanvasTexture` drawn every frame. Lock screen, then a home
-  feed (weather, calendar, animated music waveform, health ring, photos) that scrolls inside the
-  device in sync with the page.
-- **Exploded view**: glass, display, logic board, battery, camera module and titanium back
-  separate along the depth axis. Spec callouts are pinned to projected 3D anchors with leader
-  lines and count up as each layer flies out.
-- **Huge-type spec filmstrip**: giant numbers slide sideways on a pinned, scrubbed track.
-- **Finish picker**: an accessible radio group that tweens the device material and the page
-  accent (`--accent`) together.
-- **Camera section**: a procedural night city on canvas. Scrolling zooms from 1x to 10x while the
-  skyline melts into bokeh discs and the subject stays sharp. Viewfinder HUD included.
-- **Compare models** and a **pre-order** finale with per-letter mega type.
+- **Studio-lit 3D phone** (Three.js): metal frame, satin etched-glass back, side buttons, sapphire
+  lenses, all with physically based materials, reflecting a real studio HDRI (Poly Haven) under ACES
+  tone mapping. A soft PCF shadow falls on an invisible paper backdrop like a product shot.
+- **Real, crisp on-device UI**: the screen is a 1170 x 2532 canvas (a real 3x panel; DPR-capped on
+  mobile) uploaded with mipmaps and max anisotropy. Photo lock screen, status bar with vector
+  icons, weather, health dial, calendar, now-playing, a photo gallery widget, app grid and dock.
+  It repaints only when something visible changes, and the feed scrolls in sync with the page.
+- **Exploded view**: glass, display, logic board, battery, camera module and frame separate along
+  the depth axis; mono spec callouts with leader lines wipe in and count up.
+- **Spec filmstrip**: giant ink numbers run past on a pinned, scrubbed track and tick up as they enter.
+- **Scroll-driven finish picker**: the section pins and each slice of scroll selects the next finish
+  (counter `01 / 04`, swatch, code and progress update; the phone and the whole page accent
+  recolour). After the last finish the pin releases. Clicking a swatch scrolls to that finish.
+  With reduced motion it is a plain click-to-select radio group.
+- **Camera section with real photographs**: scrolling zooms into a sharp night skyline, pulls focus
+  through a blurred copy and lands on a real optical-bokeh photo. Pure opacity/transform layers.
+- **Compare models** and a **pre-order** finale with masked mega type.
 - **Lenis** smooth scroll + **GSAP ScrollTrigger**, one pose track that maps scroll to the phone's
   position, rotation, explode amount and screen state.
-- **Mobile-first**: separate mobile poses, lower pixel ratio, no MSAA, fewer segments and lights.
+- **Mobile-first**: 4-column grid, separate mobile poses, lower pixel ratio and shadow map size.
   Tested at 390px wide.
-- **Reduced motion**: with `prefers-reduced-motion`, there is no smooth scroll, pinning or scrubbing;
-  the page becomes a calm static layout with all specs visible.
-- **Fast first paint**: the Three.js chunk is lazy-loaded after the text renders. No images,
-  video or model files; total built size is under 1 MB.
+- **Reduced motion**: no smooth scroll, pinning or scrubbing; a calm static layout.
+- **Fast first paint**: Three.js is lazy-loaded after the text renders. Photos are WebP, lazy-loaded.
 
 ## Customise (rebrand in one file)
 
@@ -48,11 +55,12 @@ Everything you can read on the page lives in [`src/content.json`](src/content.js
 | `nav` | Nav links and CTA |
 | `hero` | Eyebrow, the giant title word (each letter animates), subtitle |
 | `screen.steps` | The copy steps shown while the in-device feed scrolls |
-| `screen.ui` | What the phone's screen shows: time, date, greeting, weather, music, health, events |
+| `screen.ui` | What the phone's screen shows: time, date, greeting, weather, music (with cover `art`), health, events, gallery `photos`, lock screen `wallpaper` |
 | `explode.layers` | Six spec callouts. `id` must be one of `glass`, `display`, `chip`, `battery`, `camera`, `back`. List them front to back: the first half goes in the left column. `value` + `decimals` drive the counter. |
 | `specs.items` | The giant filmstrip numbers |
 | `colors.finishes` | Device finishes: `body` is the metal colour, `accent` re-themes the whole page |
-| `camera` | Copy, max zoom readout, aperture label, stats |
+| `camera` | Copy, max zoom readout, aperture label, stats, and `images` (sharp photo, blurred copy, bokeh photo) |
+| `environment.hdri` | Equirectangular `.hdr` used for reflections on the phone |
 | `compare.models` | Model cards; `highlight: true` adds the glow and `badge` |
 | `preorder`, `footer` | Finale copy, CTAs, fine print |
 
@@ -92,17 +100,26 @@ src/
   sections/
     explode.ts        projected spec callouts + counters
     colors.ts         accessible finish picker with colour tweening
-    camera.ts         procedural zoom + bokeh scene
+    camera.ts         photo zoom + focus-pull layers
 ```
 
 ## Credits
 
 - [Three.js](https://threejs.org) (MIT), [GSAP + ScrollTrigger](https://gsap.com) (free standard
   license), [Lenis](https://github.com/darkroomengineering/lenis) (MIT), [Vite](https://vite.dev) (MIT).
-- [Space Grotesk](https://fonts.google.com/specimen/Space+Grotesk) by Florian Karsten, SIL Open Font
-  License, via Fontsource.
-- All visuals (3D phone, screen UI, city scene, icons) are procedural and made for this template.
-  No third-party photos, videos, models or HDRIs.
+- Fonts via Fontsource, SIL Open Font License: [Inter Tight](https://fonts.google.com/specimen/Inter+Tight)
+  and [JetBrains Mono](https://www.jetbrains.com/lp/mono/).
+- HDRI: [Studio Small 09](https://polyhaven.com/a/studio_small_09) by Sergej Majboroda, Poly Haven, CC0.
+- Photographs from [Pexels](https://www.pexels.com), used under the
+  [Pexels License](https://www.pexels.com/license/) (free for commercial use, no attribution
+  required; credited anyway). Resized and converted to WebP in `public/img/`:
+  - `night-city.webp`, `night-city-bokeh.webp`, `thumb-6.webp`: [Night skyline](https://www.pexels.com/photo/stunning-night-skyline-of-a-modern-city-35889296/)
+  - `bokeh-lights.webp`, `thumb-5.webp`: [Bokeh city lights](https://www.pexels.com/photo/bokeh-photography-of-city-lights-at-night-11297768/)
+  - `wallpaper.webp`, `thumb-1.webp`: [Mountain and lake](https://www.pexels.com/photo/mountain-and-lake-1526713/)
+  - `thumb-2.webp`: [Lake surrounded with mountain](https://www.pexels.com/photo/lake-surrounded-with-mountain-629161/)
+  - `thumb-3.webp`: [City lighting at night](https://www.pexels.com/photo/city-lighting-at-night-18834566/)
+  - `thumb-4.webp`: [City skyline at night](https://www.pexels.com/photo/city-lights-night-stars-57641/)
+- The 3D phone and all UI are modelled and drawn in code for this template. Veyra and Flux are fictional.
 
 ## License
 

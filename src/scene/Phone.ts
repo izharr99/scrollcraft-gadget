@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import type { LayerId } from '../types';
+import { PT_H, PT_W } from './screenUI';
 
 /** Physical-ish dimensions in scene units (roughly 1 unit = 5 cm). */
 export const DIM = { w: 1.5, h: 3.1, d: 0.15, r: 0.22 };
@@ -51,43 +52,82 @@ export class Phone {
   readonly group = new THREE.Group();
   readonly layers: Layer[] = [];
   readonly bodyMaterial: THREE.MeshPhysicalMaterial;
+  /** Satin (frosted) back glass, tinted with the finish colour. */
+  readonly backMaterial: THREE.MeshPhysicalMaterial;
   readonly accentMaterial: THREE.MeshStandardMaterial;
   readonly screenTexture: THREE.CanvasTexture;
   private explodeAmount = -1;
 
-  constructor(screenCanvas: HTMLCanvasElement, bodyColor: string, accent: string, lowDetail: boolean) {
+  constructor(
+    screenCanvas: HTMLCanvasElement,
+    bodyColor: string,
+    accent: string,
+    lowDetail: boolean,
+    maxAnisotropy = 8,
+  ) {
     const { w, h, d, r } = DIM;
     const curve = lowDetail ? 10 : 20;
 
+    // Anodised metal frame: full metalness, low roughness, so the HDRI reads as real reflections.
     this.bodyMaterial = new THREE.MeshPhysicalMaterial({
       color: bodyColor,
-      metalness: 0.85,
-      roughness: 0.32,
-      clearcoat: 0.6,
-      clearcoatRoughness: 0.25,
+      metalness: 1,
+      roughness: 0.26,
+      clearcoat: 0.4,
+      clearcoatRoughness: 0.15,
+    });
+    // Matte etched back glass: dielectric, rough base, glossy clearcoat on top.
+    this.backMaterial = new THREE.MeshPhysicalMaterial({
+      color: bodyColor,
+      metalness: 0,
+      roughness: 0.62,
+      clearcoat: 1,
+      clearcoatRoughness: 0.42,
+      sheen: 0.25,
+      sheenRoughness: 0.6,
     });
     this.accentMaterial = new THREE.MeshStandardMaterial({
       color: accent,
       emissive: accent,
-      emissiveIntensity: 1.4,
+      emissiveIntensity: 0.25,
       roughness: 0.4,
     });
     const black = new THREE.MeshStandardMaterial({ color: '#050507', roughness: 0.2, metalness: 0.3 });
-    const darkMetal = new THREE.MeshStandardMaterial({ color: '#3a3d45', metalness: 0.9, roughness: 0.35 });
+    const darkMetal = new THREE.MeshPhysicalMaterial({ color: '#6b6e75', metalness: 1, roughness: 0.3 });
     const lensGlass = new THREE.MeshPhysicalMaterial({
-      color: '#0a0d18',
-      metalness: 0.2,
-      roughness: 0.05,
+      color: '#05070c',
+      metalness: 0,
+      roughness: 0.02,
       clearcoat: 1,
+      clearcoatRoughness: 0,
+      iridescence: 0.6,
+      iridescenceIOR: 1.6,
     });
 
-    // 1. Back / frame (the solid body)
-    const back = new THREE.Mesh(slab(w, h, r, d, 0.035, curve), this.bodyMaterial);
+    // 1. Back / frame: metal body, inset satin-glass back panel and side buttons
+    const back = new THREE.Group();
+    back.add(new THREE.Mesh(slab(w, h, r, d, 0.035, curve), this.bodyMaterial));
+    const backGlass = new THREE.Mesh(slab(w - 0.07, h - 0.07, r - 0.035, 0.012, 0.004, curve), this.backMaterial);
+    backGlass.position.z = -d / 2 + 0.002;
+    back.add(backGlass);
+    const btnGeo = new THREE.BoxGeometry(0.03, 1, 0.06);
+    const buttons: [number, number, number][] = [
+      [w / 2 + 0.008, 0.55, 0.42],
+      [-w / 2 - 0.008, 0.85, 0.26],
+      [-w / 2 - 0.008, 0.5, 0.26],
+      [-w / 2 - 0.008, 1.12, 0.12],
+    ];
+    for (const [bx, by, bh] of buttons) {
+      const b = new THREE.Mesh(btnGeo, this.bodyMaterial);
+      b.scale.y = bh;
+      b.position.set(bx, by, 0);
+      back.add(b);
+    }
     this.addLayer('back', back, 0, -0.95, new THREE.Vector3(w / 2, -h * 0.3, 0));
 
     // 2. Camera module, sits on the back face
     const cam = new THREE.Group();
-    const plate = new THREE.Mesh(slab(0.66, 0.66, 0.16, 0.05, 0.012, curve), this.bodyMaterial);
+    const plate = new THREE.Mesh(slab(0.66, 0.66, 0.16, 0.05, 0.012, curve), this.backMaterial);
     cam.add(plate);
     const lensGeo = new THREE.CylinderGeometry(0.115, 0.115, 0.05, lowDetail ? 20 : 40);
     const ringGeo = new THREE.TorusGeometry(0.125, 0.018, 8, lowDetail ? 20 : 40);
@@ -102,7 +142,10 @@ export class Phone {
       lens.position.set(lx, ly, -0.03);
       const ring = new THREE.Mesh(ringGeo, darkMetal);
       ring.position.set(lx, ly, -0.055);
-      cam.add(lens, ring);
+      const iris = new THREE.Mesh(new THREE.CircleGeometry(0.05, 32), black);
+      iris.rotation.y = Math.PI;
+      iris.position.set(lx, ly, -0.0565);
+      cam.add(lens, ring, iris);
     }
     const flash = new THREE.Mesh(new THREE.CircleGeometry(0.035, 16), this.accentMaterial);
     flash.position.set(0.16, 0.2, -0.027);
@@ -150,9 +193,13 @@ export class Phone {
     display.add(panel);
     this.screenTexture = new THREE.CanvasTexture(screenCanvas);
     this.screenTexture.colorSpace = THREE.SRGBColorSpace;
-    this.screenTexture.anisotropy = 4;
+    this.screenTexture.anisotropy = maxAnisotropy;
+    this.screenTexture.generateMipmaps = true;
+    this.screenTexture.minFilter = THREE.LinearMipmapLinearFilter;
+    this.screenTexture.magFilter = THREE.LinearFilter;
+    const sw = w - 0.1;
     const screen = new THREE.Mesh(
-      new THREE.PlaneGeometry(w - 0.1, h - 0.1),
+      new THREE.PlaneGeometry(sw, (sw * PT_H) / PT_W),
       new THREE.MeshBasicMaterial({ map: this.screenTexture, transparent: true, toneMapped: false }),
     );
     screen.position.z = 0.0065;
@@ -178,6 +225,9 @@ export class Phone {
     const glassZ = d / 2 + 0.017;
     this.addLayer('glass', glass, glassZ, glassZ + 1.5, new THREE.Vector3(w / 2 - 0.02, h * 0.42, 0));
 
+    this.group.traverse((o) => {
+      if ((o as THREE.Mesh).isMesh && o !== glass && o !== screen) o.castShadow = true;
+    });
     this.setExplode(0);
   }
 

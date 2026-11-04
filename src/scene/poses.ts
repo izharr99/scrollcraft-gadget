@@ -33,17 +33,17 @@ export interface Keyframe {
 const PI = Math.PI;
 
 export const KEYFRAMES: Keyframe[] = [
-  { at: ['hero', 0], pose: { x: 0, y: -0.55, s: 0.92, rx: 0.35, ry: PI * 1.05, rz: -0.12, explode: 0, vis: 1, lock: 1, feed: 0 }, mobile: { s: 0.6, y: -0.35 } },
-  { at: ['hero', 1], pose: { y: 0, s: 1, rx: 0.06, ry: -0.32, rz: 0.04 }, mobile: { s: 0.74, y: 0.1 } },
+  { at: ['hero', 0], pose: { x: 0, y: -0.2, s: 0.9, rx: 0.35, ry: PI * 1.05, rz: -0.12, explode: 0, vis: 1, lock: 1, feed: 0 }, mobile: { s: 0.62, y: 0.05 } },
+  { at: ['hero', 1], pose: { y: 0.1, s: 1, rx: 0.06, ry: -0.32, rz: 0.04 }, mobile: { s: 0.72, y: 0.2 } },
   { at: ['screen', 0], pose: { x: 1.25, ry: -0.28, rx: 0, rz: 0, s: 1.02, lock: 0, feed: 0 }, mobile: { x: 0, y: 0.62, s: 0.68 } },
   { at: ['screen', 1], pose: { ry: -0.12, feed: 1 }, mobile: { y: 0.62 }, ease: 'linear' },
   { at: ['explode', 0.08], pose: { x: 0, y: -0.1, s: 0.72, rx: 0.42, ry: -1.0, rz: 0.12, explode: 0 }, mobile: { x: 0, y: 0.15, s: 0.5 } },
   { at: ['explode', 0.7], pose: { ry: -1.18, explode: 1 }, mobile: { y: 0.15 } },
   { at: ['explode', 1], pose: { ry: -1.25, explode: 1, vis: 1 } },
   { at: ['specs', -0.15], pose: { vis: 0, explode: 0.4, s: 0.6 } },
-  { at: ['colors', -0.35], pose: { vis: 0, explode: 0, x: -1.05, y: 0, rx: 0.15, ry: PI - 0.5, rz: -0.05, s: 0.95 }, mobile: { x: 0, y: 0.65, s: 0.62 } },
+  { at: ['colors', -0.35], pose: { vis: 0, explode: 0, x: -1.05, y: 0, rx: 0.15, ry: PI - 0.4, rz: -0.05, s: 0.95 }, mobile: { x: 0, y: 0.65, s: 0.62 } },
   { at: ['colors', 0], pose: { vis: 1 } },
-  { at: ['colors', 1], pose: { ry: PI + 0.9, vis: 1 }, ease: 'linear' },
+  { at: ['colors', 1], pose: { ry: PI + 0.4, vis: 1 }, ease: 'linear' },
   { at: ['camera', -0.25], pose: { vis: 0, ry: PI + 1.2 } },
 ];
 

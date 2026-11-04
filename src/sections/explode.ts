@@ -80,8 +80,8 @@ export class ExplodeCallouts {
 
     const cx = window.innerWidth / 2;
     const spread = Math.min(window.innerWidth * 0.3, 470);
-    const top = window.innerHeight * 0.32;
-    const bottom = window.innerHeight - 70;
+    const top = window.innerHeight * 0.38;
+    const bottom = window.innerHeight - 60;
     const anchors = new Map<Item, { x: number; y: number }>();
     for (const it of this.items) anchors.set(it, stage.project(it.spec.id));
 
@@ -91,7 +91,7 @@ export class ExplodeCallouts {
       col.sort((a, b) => a.ay - b.ay);
       let prev = -Infinity;
       for (const it of col) {
-        it.y = Math.max(it.ay, prev + 104, top);
+        it.y = Math.max(it.ay, prev + 122, top);
         prev = it.y;
       }
       // If the column overflowed the bottom, shift it up as a block.

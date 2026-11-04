@@ -2,7 +2,7 @@
   "meta": {
     "title": "Veyra Flux 1. Light, rewritten.",
     "description": "Meet Veyra Flux 1, a fictional flagship phone. A scroll-driven launch page template built with Three.js, GSAP and Lenis.",
-    "themeColor": "#07080b",
+    "themeColor": "#efede8",
     "lang": "en"
   },
   "brand": {
@@ -12,37 +12,88 @@
   },
   "nav": {
     "links": [
-      { "label": "Design", "href": "#explode" },
-      { "label": "Camera", "href": "#camera" },
-      { "label": "Compare", "href": "#compare" }
+      {
+        "label": "Design",
+        "href": "#explode"
+      },
+      {
+        "label": "Camera",
+        "href": "#camera"
+      },
+      {
+        "label": "Compare",
+        "href": "#compare"
+      }
     ],
-    "cta": { "label": "Pre-order", "href": "#preorder" }
+    "cta": {
+      "label": "Pre-order",
+      "href": "#preorder"
+    }
   },
   "hero": {
     "eyebrow": "Introducing",
     "title": "FLUX",
-    "subtitle": "A phone carved from a single beam of light. Scroll to bring it to life.",
+    "subtitle": "A phone reduced to what matters. Scroll to assemble it.",
     "scrollHint": "Scroll"
   },
   "screen": {
     "kicker": "Flux OS",
     "steps": [
-      { "title": "Your day, at a glance.", "body": "Widgets that rearrange themselves around what matters right now." },
-      { "title": "Sound that follows you.", "body": "Spatial audio tuned per room, handed off between devices without a tap." },
-      { "title": "Health, quietly tracked.", "body": "Sleep, heart and movement, summarised in one honest number." }
+      {
+        "title": "Your day, at a glance.",
+        "body": "Widgets that rearrange themselves around what matters right now."
+      },
+      {
+        "title": "Sound that follows you.",
+        "body": "Spatial audio tuned per room, handed off between devices without a tap."
+      },
+      {
+        "title": "Health, quietly tracked.",
+        "body": "Sleep, heart and movement, summarised in one honest number."
+      }
     ],
     "ui": {
       "time": "9:41",
       "date": "Tuesday, 3 November",
       "greeting": "Good morning, Sam",
-      "weather": { "temp": "24°", "label": "Clear skies", "city": "Lahore" },
-      "music": { "track": "Neon Tides", "artist": "Halcyon Drift" },
-      "health": { "score": 86, "label": "Recovery", "steps": "8,402 steps" },
+      "weather": {
+        "temp": "24°",
+        "label": "Clear skies",
+        "city": "Lahore"
+      },
+      "music": {
+        "track": "Neon Tides",
+        "artist": "Halcyon Drift",
+        "art": "/img/thumb-5.webp"
+      },
+      "health": {
+        "score": 86,
+        "label": "Recovery",
+        "steps": "8,402 steps"
+      },
       "events": [
-        { "time": "10:00", "title": "Design review" },
-        { "time": "13:30", "title": "Lunch with Ana" },
-        { "time": "18:00", "title": "Run club" }
-      ]
+        {
+          "time": "10:00",
+          "title": "Design review"
+        },
+        {
+          "time": "13:30",
+          "title": "Lunch with Ana"
+        },
+        {
+          "time": "18:00",
+          "title": "Run club"
+        }
+      ],
+      "photos": [
+        "/img/thumb-1.webp",
+        "/img/thumb-2.webp",
+        "/img/thumb-3.webp",
+        "/img/thumb-4.webp",
+        "/img/thumb-5.webp",
+        "/img/thumb-6.webp"
+      ],
+      "wallpaper": "/img/wallpaper.webp"
     }
   },
   "explode": {
@@ -50,46 +101,146 @@
     "heading": "Engineered in six layers.",
     "body": "Scroll to take it apart.",
     "layers": [
-      { "id": "glass", "label": "Ceramic glass", "value": 4, "decimals": 0, "unit": "x", "detail": "tougher than last gen" },
-      { "id": "display", "label": "LTPO display", "value": 6.4, "decimals": 1, "unit": "in", "detail": "1 to 144 Hz adaptive" },
-      { "id": "chip", "label": "Q3 Neural chip", "value": 3, "decimals": 0, "unit": "nm", "detail": "40 TOPS on-device AI" },
-      { "id": "battery", "label": "Silicon-carbon cell", "value": 5600, "decimals": 0, "unit": "mAh", "detail": "two-day battery" },
-      { "id": "camera", "label": "Triple camera", "value": 200, "decimals": 0, "unit": "MP", "detail": "main sensor" },
-      { "id": "back", "label": "Titanium frame", "value": 168, "decimals": 0, "unit": "g", "detail": "lightest flagship we have made" }
+      {
+        "id": "glass",
+        "label": "Ceramic glass",
+        "value": 4,
+        "decimals": 0,
+        "unit": "x",
+        "detail": "tougher than last gen"
+      },
+      {
+        "id": "display",
+        "label": "LTPO display",
+        "value": 6.4,
+        "decimals": 1,
+        "unit": "in",
+        "detail": "1 to 144 Hz adaptive"
+      },
+      {
+        "id": "chip",
+        "label": "Q3 Neural chip",
+        "value": 3,
+        "decimals": 0,
+        "unit": "nm",
+        "detail": "40 TOPS on-device AI"
+      },
+      {
+        "id": "battery",
+        "label": "Silicon-carbon cell",
+        "value": 5600,
+        "decimals": 0,
+        "unit": "mAh",
+        "detail": "two-day battery"
+      },
+      {
+        "id": "camera",
+        "label": "Triple camera",
+        "value": 200,
+        "decimals": 0,
+        "unit": "MP",
+        "detail": "main sensor"
+      },
+      {
+        "id": "back",
+        "label": "Titanium frame",
+        "value": 168,
+        "decimals": 0,
+        "unit": "g",
+        "detail": "lightest flagship we have made"
+      }
     ]
   },
   "specs": {
     "kicker": "By the numbers",
     "items": [
-      { "value": "144", "unit": "Hz", "label": "Adaptive refresh" },
-      { "value": "48", "unit": "h", "label": "Mixed-use battery" },
-      { "value": "3000", "unit": "nits", "label": "Peak brightness" },
-      { "value": "IP68", "unit": "", "label": "Dust and water" },
-      { "value": "7.4", "unit": "mm", "label": "Thin" }
+      {
+        "value": "144",
+        "unit": "Hz",
+        "label": "Adaptive refresh"
+      },
+      {
+        "value": "48",
+        "unit": "h",
+        "label": "Mixed-use battery"
+      },
+      {
+        "value": "3000",
+        "unit": "nits",
+        "label": "Peak brightness"
+      },
+      {
+        "value": "IP68",
+        "unit": "",
+        "label": "Dust and water"
+      },
+      {
+        "value": "7.4",
+        "unit": "mm",
+        "label": "Thin"
+      }
     ]
   },
   "colors": {
     "kicker": "Finishes",
     "heading": "Pick your light.",
-    "body": "Four anodised titanium finishes. The page follows your choice.",
+    "body": "Four anodised titanium finishes. Scroll to cycle through them; the page follows your choice.",
     "finishes": [
-      { "name": "Graphite", "body": "#2b2d33", "accent": "#7c9cff" },
-      { "name": "Aurora", "body": "#9fd8c8", "accent": "#3ee0b0" },
-      { "name": "Ember", "body": "#c8643f", "accent": "#ff8a4c" },
-      { "name": "Lilac", "body": "#b7a6e8", "accent": "#c18cff" }
+      {
+        "name": "Signal Orange",
+        "code": "SO-01",
+        "body": "#d9531e",
+        "accent": "#d9531e"
+      },
+      {
+        "name": "Graphite",
+        "code": "GR-02",
+        "body": "#2a2b2e",
+        "accent": "#2a2b2e"
+      },
+      {
+        "name": "Sage",
+        "code": "SG-03",
+        "body": "#8d9f86",
+        "accent": "#5f7a58"
+      },
+      {
+        "name": "Chalk",
+        "code": "CH-04",
+        "body": "#dcd8cf",
+        "accent": "#8a7f6a"
+      }
     ]
   },
   "camera": {
     "kicker": "Camera",
     "heading": "Zoom into the night.",
-    "body": "Scroll to zoom. Watch the city melt into bokeh while your subject stays razor sharp.",
+    "body": "Scroll to zoom in, then pull focus. The skyline dissolves into real optical bokeh.",
     "zoomMax": 10,
     "aperture": "f/1.4",
     "stats": [
-      { "value": "200", "unit": "MP", "label": "Main" },
-      { "value": "10", "unit": "x", "label": "Optical zoom" },
-      { "value": "8K", "unit": "", "label": "Video" }
-    ]
+      {
+        "value": "200",
+        "unit": "MP",
+        "label": "Main"
+      },
+      {
+        "value": "10",
+        "unit": "x",
+        "label": "Optical zoom"
+      },
+      {
+        "value": "8K",
+        "unit": "",
+        "label": "Video"
+      }
+    ],
+    "images": {
+      "sharp": "/img/night-city.webp",
+      "soft": "/img/night-city-bokeh.webp",
+      "bokeh": "/img/bokeh-lights.webp",
+      "alt": "A city skyline at night seen through the camera, zooming in until the lights dissolve into bokeh"
+    }
   },
   "compare": {
     "kicker": "Compare",
@@ -100,10 +251,22 @@
         "price": "$699",
         "highlight": false,
         "specs": [
-          { "label": "Display", "value": "5.9 in, 120 Hz" },
-          { "label": "Chip", "value": "Q3 Neural" },
-          { "label": "Camera", "value": "50 MP dual" },
-          { "label": "Battery", "value": "4500 mAh" }
+          {
+            "label": "Display",
+            "value": "5.9 in, 120 Hz"
+          },
+          {
+            "label": "Chip",
+            "value": "Q3 Neural"
+          },
+          {
+            "label": "Camera",
+            "value": "50 MP dual"
+          },
+          {
+            "label": "Battery",
+            "value": "4500 mAh"
+          }
         ]
       },
       {
@@ -112,10 +275,22 @@
         "highlight": true,
         "badge": "Most popular",
         "specs": [
-          { "label": "Display", "value": "6.4 in, 144 Hz" },
-          { "label": "Chip", "value": "Q3 Neural" },
-          { "label": "Camera", "value": "200 MP triple" },
-          { "label": "Battery", "value": "5600 mAh" }
+          {
+            "label": "Display",
+            "value": "6.4 in, 144 Hz"
+          },
+          {
+            "label": "Chip",
+            "value": "Q3 Neural"
+          },
+          {
+            "label": "Camera",
+            "value": "200 MP triple"
+          },
+          {
+            "label": "Battery",
+            "value": "5600 mAh"
+          }
         ]
       },
       {
@@ -123,10 +298,22 @@
         "price": "$1,199",
         "highlight": false,
         "specs": [
-          { "label": "Display", "value": "6.9 in, 144 Hz" },
-          { "label": "Chip", "value": "Q3 Neural Max" },
-          { "label": "Camera", "value": "200 MP quad, 10x" },
-          { "label": "Battery", "value": "6200 mAh" }
+          {
+            "label": "Display",
+            "value": "6.9 in, 144 Hz"
+          },
+          {
+            "label": "Chip",
+            "value": "Q3 Neural Max"
+          },
+          {
+            "label": "Camera",
+            "value": "200 MP quad, 10x"
+          },
+          {
+            "label": "Battery",
+            "value": "6200 mAh"
+          }
         ]
       }
     ]
@@ -135,14 +322,26 @@
     "kicker": "Available 21 November",
     "heading": "Hold the light.",
     "price": "From $899 or $37/mo.",
-    "cta": { "label": "Pre-order Flux 1", "href": "#preorder" },
-    "secondary": { "label": "Back to top", "href": "#top" },
+    "cta": {
+      "label": "Pre-order Flux 1",
+      "href": "#preorder"
+    },
+    "secondary": {
+      "label": "Back to top",
+      "href": "#top"
+    },
     "finePrint": "Veyra and Flux are fictional. This page is a free, open-source template."
   },
   "footer": {
     "note": "Built with Three.js, GSAP and Lenis.",
     "links": [
-      { "label": "Source on GitHub", "href": "https://github.com/izharr99/scrollcraft-gadget" }
+      {
+        "label": "Source on GitHub",
+        "href": "https://github.com/izharr99/scrollcraft-gadget"
+      }
     ]
+  },
+  "environment": {
+    "hdri": "/hdri/studio_small_09_1k.hdr"
   }
 }
